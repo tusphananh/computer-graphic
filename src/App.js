@@ -4,7 +4,7 @@ import Unity, { UnityContext } from "react-unity-webgl";
 import styles from "./style.module.scss";
 import AceEditor from "react-ace";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlay } from "@fortawesome/free-solid-svg-icons";
+import { faPlay, faSyncAlt } from "@fortawesome/free-solid-svg-icons";
 
 import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/theme-monokai";
@@ -24,6 +24,12 @@ window.rotateLeft = async () => {
 };
 window.rotateRight = async () => {
   unityContext.send("Character", "rotateRight");
+};
+const getVictory = () => {
+  return unityContext.send("GameController", "getVictory");
+};
+const resetGame = () => {
+  unityContext.send("GameController", "loadCurScene");
 };
 
 const executeCode = (editorValue) => {
@@ -65,10 +71,19 @@ const GameController = () => {
   function onRun() {
     executeCode(editorValue);
   }
-
+  function onReset() {
+    resetGame();
+    console.log(getVictory());
+  }
   return (
     <div className={styles["game-controller"]}>
       <div className={styles["game-controller__header"]}>
+        <button
+          className={styles["game-controller__reset-btn"]}
+          onClick={onReset}
+        >
+          <FontAwesomeIcon icon={faSyncAlt} />
+        </button>
         <p className={styles["game-controller-header__title"]}>
           Game Controller
         </p>
