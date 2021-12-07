@@ -19,6 +19,22 @@ const unityContext = new UnityContext({
 window.moveForward = async () => {
   unityContext.send("Character", "moveForward");
 };
+window.rotateLeft = async () => {
+  unityContext.send("Character", "rotateLeft");
+};
+window.rotateRight = async () => {
+  unityContext.send("Character", "rotateRight");
+};
+
+const executeCode = (editorValue) => {
+  try {
+    eval(
+      "try { " + editorValue + " } catch(err) { console.log(err.message); }"
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 function App() {
   return (
@@ -47,13 +63,7 @@ const GameController = () => {
   }
 
   function onRun() {
-    // moveForward();
-    try {
-      console.log(editorValue);
-      eval(editorValue);
-    } catch (e) {
-      console.log(e);
-    }
+    executeCode(editorValue);
   }
 
   return (
