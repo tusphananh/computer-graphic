@@ -16,9 +16,9 @@ const unityContext = new UnityContext({
   codeUrl: "./web/Build/web.wasm",
 });
 
-function moveForward() {
+window.moveForward = async () => {
   unityContext.send("Character", "moveForward");
-}
+};
 
 function App() {
   return (
@@ -47,8 +47,7 @@ const GameController = () => {
   }
 
   function onRun() {
-
-    moveForward();
+    // moveForward();
     try {
       console.log(editorValue);
       eval(editorValue);
