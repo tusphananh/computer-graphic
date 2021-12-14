@@ -33,11 +33,9 @@ const resetGame = () => {
 
 const executeCode = (editorValue) => {
   try {
-    eval(
-      "try { " + editorValue + " } catch(err) { console.log(err.message); }"
-    );
-  } catch (error) {
-    console.log(error);
+    eval("try { " + editorValue + " } catch(err) {  alert(err.message); }");
+  } catch (err) {
+    alert(err.message);
   }
 };
 
@@ -69,7 +67,7 @@ function App() {
     function () {
       isVictory && isScreenLoaded && playTransition();
     },
-    [isVictory, isScreenLoaded]
+    [isVictory, isScreenLoaded, sceneIdx]
   );
 
   return (
@@ -187,17 +185,28 @@ const GameController = ({ sceneIdx, playTransition }) => {
   }
 
   function onRun() {
-    executeCode(editorValue);
+    const total = editorValue + Lesson[sceneIdx].editorValue;
+    executeCode(total);
   }
   function onReset() {
     resetGame();
     playTransition();
+    setEditorValue("");
   }
+  React.useEffect(function () {
+    setLessonValue(Lesson[sceneIdx].content);
+    setLessonTitle(Lesson[sceneIdx].title);
+    setEditorValue("");
+  }, []);
 
   React.useEffect(
     function () {
-      setLessonValue(Lesson[sceneIdx].content);
-      setLessonTitle(Lesson[sceneIdx].title);
+      console.log(Lesson[sceneIdx]);
+      setTimeout(() => {
+        setLessonValue(Lesson[sceneIdx].content);
+        setLessonTitle(Lesson[sceneIdx].title);
+        setEditorValue("");
+      }, 2500);
     },
     [sceneIdx]
   );
